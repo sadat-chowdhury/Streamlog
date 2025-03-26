@@ -1,0 +1,311 @@
+/* Authentication Pages Shared Styles */
+:root {
+    --primary-color: #4CAF50;
+    --primary-dark: #3d8b40;
+    --secondary-color: #333333;
+    --text-color: #444444;
+    --light-gray: #f5f5f5;
+    --border-color: #e0e0e0;
+    --white: #ffffff;
+    --error-color: #e53935;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+  }
+  
+  .auth-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+  }
+  
+  .auth-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    margin: 20px;
+  }
+  
+  .auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .auth-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  
+  .auth-logo img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .auth-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+  }
+  
+  .auth-header p {
+    color: #666;
+    font-size: 16px;
+  }
+  
+  .auth-form {
+    margin-bottom: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--secondary-color);
+  }
+  
+  .form-group input:not([type="checkbox"]) {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 16px;
+    color: var(--text-color); /* Text should be dark */
+    background-color: var(--white); /* Fix: Ensure background is white */
+    transition: var(--transition);
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
+  
+  .form-group input.error {
+    border-color: var(--error-color);
+  }
+  
+  .error-message {
+    color: var(--error-color);
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+  }
+  
+  .password-requirements {
+    font-size: 13px;
+    color: #888;
+    margin-top: 8px;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .checkbox-group input {
+    margin-top: 3px;
+  }
+  
+  .checkbox-group label {
+    margin: 0;
+    font-weight: normal;
+    font-size: 14px;
+  }
+  
+  .checkbox-group a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .checkbox-group a:hover {
+    text-decoration: underline;
+  }
+  
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .remember-me label {
+    font-size: 14px;
+    color: var(--text-color);
+  }
+  .remember-me input[type="checkbox"] {
+    appearance: none; /* Removes default styling */
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    background-color: var(--white); /* Fix: Ensure background is white */
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+}
+
+/* Style for when the checkbox is checked */
+.remember-me input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Adding a checkmark when selected */
+.remember-me input[type="checkbox"]:checked::after {
+    content: "✔";
+    font-size: 12px;
+    color: var(--white);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+  
+  .forgot-password {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
+  
+  .auth-button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .auth-button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 25px 0;
+  }
+  
+  .auth-divider::before,
+  .auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .auth-divider span {
+    padding: 0 10px;
+    color: #777;
+    font-size: 14px;
+  }
+  
+  .social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: black
+  }
+  
+  .social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    color: black
+  }
+  
+  .social-button.google:hover {
+    background-color: #f8f8f8a8;
+  }
+  
+  .social-button.microsoft:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .auth-footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .auth-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .auth-footer a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 576px) {
+    .auth-card {
+      padding: 30px 20px;
+    }
+    
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .auth-header h1 {
+      font-size: 24px;
+    }
+    
+    .form-options {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
