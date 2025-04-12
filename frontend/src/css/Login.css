@@ -18,7 +18,7 @@
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    background: linear-gradient(135deg, #242169 0%, #9444a6 100%);
   }
   
   .auth-card {
@@ -29,6 +29,17 @@
     max-width: 500px;
     padding: 40px;
     margin: 20px;
+  
+    /* Fade in */
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Hover effect */
+  .auth-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
   }
   
   .auth-header {

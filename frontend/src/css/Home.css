@@ -2,6 +2,7 @@
   padding: 2rem 0;
   width: 100%;
   box-sizing: border-box;
+  background: linear-gradient(135deg, #242169 0%, #9444a6 100%);
 }
 
 .search-form {
