@@ -7,11 +7,30 @@ function Favorites() {
   const { favorites } = useMovieContext();
   const [selectedMovieId, setSelectedMovieId] = useState(null);
 
-  const handleRecommendClick = () => {
+  const handleRecommendClick = async () => {
     const selectedMovie = favorites.find(movie => movie.id === parseInt(selectedMovieId));
-    if (selectedMovie) {
-      console.log("Fetching recommendations for:", selectedMovie.title);
-      // Call your recommendation API here using `selectedMovie.id` or `title`
+    if (!selectedMovie) return;
+  
+    try {
+      const response = await fetch('https://us-east1-white-faculty-456816-n9.cloudfunctions.net/get_recommendations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title: selectedMovie.title })
+      });
+  
+      const data = await response.json();
+  
+      if (data.recommendations) {
+        console.log("Recommendations:", data.recommendations);
+        alert(`Recommended:\n${data.recommendations.join('\n')}`);
+      } else {
+        alert("Error: " + (data.error || "Unknown error"));
+      }
+    } catch (err) {
+      alert("Failed to fetch recommendations");
+      console.error(err);
     }
   };
 
