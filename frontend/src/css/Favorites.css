@@ -101,3 +101,21 @@
 .recommendation-bar button:hover:enabled {
   background-color: #0056b3;
 }
+
+.recommendations-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.recommendations-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.recommendations-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #333;
+}
+

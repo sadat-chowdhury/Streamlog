@@ -1,17 +1,21 @@
 import "../css/Favorites.css";
+import { useState } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
 import MovieCard from "../components/MovieCard";
-import { useState } from "react";
 
 function Favorites() {
   const { favorites } = useMovieContext();
   const [selectedMovieId, setSelectedMovieId] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleRecommendClick = async () => {
     const selectedMovie = favorites.find(movie => movie.id === parseInt(selectedMovieId));
     if (!selectedMovie) return;
-  
+
     try {
+      setLoading(true);
+      setRecommendations([]); // Clear old recs
       const response = await fetch('https://us-east1-white-faculty-456816-n9.cloudfunctions.net/get_recommendations', {
         method: 'POST',
         headers: {
@@ -19,18 +23,18 @@ function Favorites() {
         },
         body: JSON.stringify({ title: selectedMovie.title })
       });
-  
+
       const data = await response.json();
-  
       if (data.recommendations) {
-        console.log("Recommendations:", data.recommendations);
-        alert(`Recommended:\n${data.recommendations.join('\n')}`);
+        setRecommendations(data.recommendations);
       } else {
         alert("Error: " + (data.error || "Unknown error"));
       }
     } catch (err) {
       alert("Failed to fetch recommendations");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,7 +51,6 @@ function Favorites() {
     <div className="favorites">
       <h2>Your Favorites</h2>
 
-      {/* Dropdown Selector */}
       <div className="recommendation-bar">
         <label htmlFor="recommend-select">Get recommendations based on:</label>
         <select
@@ -60,17 +63,27 @@ function Favorites() {
             <option value={movie.id} key={movie.id}>{movie.title}</option>
           ))}
         </select>
-        <button onClick={handleRecommendClick} disabled={!selectedMovieId}>
-          Recommend Me Movies
+        <button onClick={handleRecommendClick} disabled={!selectedMovieId || loading}>
+          {loading ? "Loading..." : "Recommend Me Movies"}
         </button>
       </div>
 
-      {/* Favorite Movies Grid */}
       <div className="movies-grid">
         {favorites.map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}
       </div>
+
+      {recommendations.length > 0 && (
+        <div className="recommendations-section">
+          <h3>Recommended for you</h3>
+          <ul className="recommendations-list">
+            {recommendations.map((rec, index) => (
+              <li key={index}>{rec}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
