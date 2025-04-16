@@ -1,39 +1,58 @@
 import functions_framework
 import os
 import re
-import openai
-from flask import jsonify
+from flask import jsonify, request
+from openai import OpenAI
 
-# Get your OpenAI key from the environment variable
-openai.api_key = os.environ.get("OPENAI_API_KEY")
 
+
+# Initialize OpenAI client
+try:
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+except Exception as e:
+    print("Failed to initialize OpenAI client:", str(e))
+    client = None  # fallback to avoid crash
+    
 def parse_movie_recommendations(output_text):
-    pattern = re.compile(r"\*(.*?\(\d{4}\))\*")
+    pattern = re.compile(r"\*(.*?)\*")
     return pattern.findall(output_text)
 
-# 👇 THIS is the Cloud Function entry point
 @functions_framework.http
 def get_recommendations(request):
+    # Set CORS headers for preflight (OPTIONS)
+    if request.method == 'OPTIONS':
+        return ('', 204, {
+            'Access-Control-Allow-Origin': 'https://streamlog-cee43.web.app',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        })
+
+    headers = {
+        'Access-Control-Allow-Origin': 'https://streamlog-cee43.web.app'
+    }
+
     try:
         data = request.get_json(silent=True)
         title = data.get("title") if data else None
 
         if not title:
-            return jsonify({"error": "Missing 'title' in request body"}), 400
+            return (jsonify({"error": "Missing 'title' in request body"}), 400, headers)
+        
+        print(f"📥 Title: {title}")
 
-        response = openai.ChatCompletion.create(
-
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
                 {
                     "role": "user",
                     "content": f"""
-                    Give me 2 movies and 2 TV series recommendations similar to: {title}.
+                    Give me 4 movie recommendations similar to: {title}.
                     Rules:
                     - Must be available on Hulu
-                    - First 2 = movies, last 2 = TV shows
+                    - Only 4 movies
                     - Each title on its own line
-                    - Format like *Title (Year)*
+                    - Format like *Title*
                     - No extra text or descriptions
                     """
                 }
@@ -41,9 +60,14 @@ def get_recommendations(request):
         )
 
         output_text = response.choices[0].message.content
+        print(f"OpenAI Response: {output_text}")  # Log the model's response
         recommendations = parse_movie_recommendations(output_text)
+        print(f"Parsed Recommendations: {recommendations}")  # Log parsed recommendations
 
-        return jsonify({"recommendations": recommendations})
+        return (jsonify({"recommendations": recommendations}), 200, headers)
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print(f"Error: {str(e)}")  # Log the error to Cloud Functions logs
+        return (jsonify({"error": str(e)}), 500, headers)
+
+
