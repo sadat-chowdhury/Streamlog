@@ -16,7 +16,7 @@ function Favorites() {
     try {
       setLoading(true);
       setRecommendations([]); // Clear old recs
-      const response = await fetch('https://us-east1-white-faculty-456816-n9.cloudfunctions.net/get_recommendations', {
+      const response = await fetch('https://us-east1-white-faculty-456816-n9.cloudfunctions.net/get-recommendations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
