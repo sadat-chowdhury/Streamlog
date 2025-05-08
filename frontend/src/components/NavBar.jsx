@@ -23,7 +23,7 @@ function NavBar() {
       </div>
       <div className="navbar-links">
         <Link to="/home" className="nav-link">Home</Link>
-        <Link to="/favorites" className="nav-link">Favorites</Link>
+        <Link to="/favorites" className="nav-link">Your Movies</Link>
         <button className="nav-link" onClick={handleSignOut}>
           Sign Out
         </button>
