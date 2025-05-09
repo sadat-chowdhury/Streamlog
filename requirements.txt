@@ -1,0 +1,3 @@
+functions-framework
+flask
+openai>=1.0.0
