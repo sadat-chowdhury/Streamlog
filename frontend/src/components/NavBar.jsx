@@ -1,16 +1,35 @@
-import { Link } from "react-router-dom";
-import "../css/Navbar.css"
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+import "../css/Navbar.css";
 
 function NavBar() {
-    return <nav className="navbar">
-        <div className="navbar-brand">
-            <Link to="/">StreamLog</Link>
-        </div>
-        <div className="navbar-links">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/favorites" className="nav-link">Favorites</Link>
-        </div>
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        navigate("/"); // Redirect to login
+      })
+      .catch((error) => {
+        console.error("Error signing out:", error);
+      });
+  };
+
+  return (
+    <nav className="navbar">
+      <div className="navbar-brand">
+        <Link to="/home">StreamLog</Link>
+      </div>
+      <div className="navbar-links">
+        <Link to="/home" className="nav-link">Home</Link>
+        <Link to="/favorites" className="nav-link">Your Movies</Link>
+        <button className="nav-link" onClick={handleSignOut}>
+          Sign Out
+        </button>
+      </div>
     </nav>
+  );
 }
 
-export default NavBar
+export default NavBar;
